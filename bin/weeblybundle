@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require 'weeblybundler'
+
+Weeblybundler::CLI.start( ARGV )
