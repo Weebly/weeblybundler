@@ -4,21 +4,37 @@ TODO: Write a gem description
 
 ## Installation
 
-Add this line to your application's Gemfile:
+Please note, this process will be significantly easier once the gem is released on rubygems.
 
-    gem 'weeblybundler'
+Download the source code
 
-And then execute:
+`git clone git@github.intern.weebly.net:bryan/weeblybundler.git`
 
-    $ bundle
+Change to source directory and install dependencies
 
-Or install it yourself as:
+`cd /GEM/SOURCE/weeblybundler && bundle install`
 
-    $ gem install weeblybundler
+Build the gem 
+
+`rake install`
+
+Install the gem in your current gemset 
+
+`gem install /GEM/SOURCE/weeblybundler/pkg/weeblybundler-0.0.1.gem`
+
+Good to go!
+
 
 ## Usage
 
-TODO: Write usage instructions here
+To use weeblybundler, first you must set your environment variables (api token and site_id). These can be found within the weebly editor under general settings.
+
+`export WEEBLY_TOKEN=token && export WEEBLY_SITE_ID=site_id`
+
+Now you can use the sync command
+
+`weeblybundle sync /Path/To/Element/Directory`
+
 
 ## Contributing
 
