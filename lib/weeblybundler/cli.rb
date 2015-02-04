@@ -9,13 +9,20 @@ module Weeblybundler
     def sync( path )
       token = ENV['WEEBLY_TOKEN']
       site_id = ENV['WEEBLY_SITE_ID']
+      url = ENV['WEEBLY_DOMAIN'] || 'http://platform.beta.weebly.com'
 
-      bundle = AppBundle.new(token, site_id, path)
+      bundle = AppBundle.new(token, site_id, path, url)
 
       if bundle.is_valid?
-        ap JSON.parse bundle.sync
+        response = bundle.sync
+        begin 
+          ap JSON.parse(response)
+        rescue
+          ap "There was a problem uploading your element to #{url}/element_upload_api.php"
+          bundle.cleanup
+        end
       else
-        ap bundle.error_message
+        ap bundle.errors
       end
     end
 
