@@ -10,17 +10,17 @@ Download the source code
 
 `git clone git@github.intern.weebly.net:bryan/weeblybundler.git`
 
-Change to source directory and install dependencies
+Change to source directory and install dependencies (including bundler)
 
-`cd /GEM/SOURCE/weeblybundler && bundle install`
+`cd weeblybundler`
 
-Build the gem 
+`sudo gem install bundler`
 
-`rake install`
+`bundle install`
 
-Install the gem in your current gemset 
+Install the gem in your current gemset by running gem install with a path to the pkg/weeblybundler-0.0.1.gem in the gem's source directory.
 
-`gem install /GEM/SOURCE/weeblybundler/pkg/weeblybundler-0.0.1.gem`
+`sudo gem install pkg/weeblybundler-0.0.1.gem`
 
 Good to go!
 
