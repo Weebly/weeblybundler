@@ -27,6 +27,7 @@ module Weeblybundler
     end
 
     desc "theme PATH", "Bundles and uploads your weebly platform theme."
+    option :publish, :type => :boolean
     def theme( path )
       token = ENV['WEEBLY_TOKEN']
       site_id = ENV['WEEBLY_SITE_ID']
@@ -35,7 +36,7 @@ module Weeblybundler
       bundle = Bundle.new(token, site_id, path, url)
 
       if bundle.is_valid?
-        response = bundle.sync('/platform/theme')
+        response = bundle.sync('/platform/theme', options[:publish])
         begin 
           ap JSON.parse(response)
         rescue
