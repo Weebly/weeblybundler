@@ -23,9 +23,9 @@ module Weeblybundler
       @errors
     end
 
-    def sync
+    def sync(path)
       zip_bundle
-      response = upload
+      response = upload(path)
       cleanup
       return response
     end
@@ -55,8 +55,8 @@ module Weeblybundler
       zfg.write()
     end
 
-    def upload
-      RestClient.post("#{@url}/platform/theme",
+    def upload(path)
+      RestClient.post("#{@url}#{path}",
     	 { :site_id => @site_id, :Filedata => File.new(@zip_location) }, 
     	 { :Authorization => @token}
       )
