@@ -3,13 +3,13 @@ require 'weeblybundler/zip_file_generator'
 
 module Weeblybundler
 
-  class AppBundle
+  class Bundle
 
     def initialize(token, site_id, path, url)
       @token = token
       @site_id = site_id
       @path = path
-      @zip_location = "#{path}/bundle.zip"
+      @zip_location = "#{path}/#{path.split('/').last}.zip"
       @url = url
       @errors = {}
     end
@@ -56,7 +56,7 @@ module Weeblybundler
     end
 
     def upload
-      RestClient.post("#{@url}/element_upload_api.php",
+      RestClient.post("#{@url}/platform/theme",
     	 { :site_id => @site_id, :Filedata => File.new(@zip_location) }, 
     	 { :Authorization => @token}
       )
