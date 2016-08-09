@@ -1,24 +1,26 @@
 require 'thor'
 require 'weeblybundler/bundle'
 require "awesome_print"
+require "json"
 
 module Weeblybundler
   class CLI < Thor
 
     desc "app PATH", "Bundles and uploads your weebly platform app."
     def app( path )
-      token = ENV['WEEBLY_TOKEN']
-      site_id = ENV['WEEBLY_SITE_ID']
-      url = ENV['WEEBLY_DOMAIN'] || 'http://marketplace.beta.weebly.com'
+      client_id = ENV['WEEBLY_CLIENT_ID']
+      secret = ENV['WEEBLY_CLIENT_SECRET']
+      url = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
 
-      bundle = Bundle.new(token, site_id, path, url)
+      bundle = Bundle.new(client_id, secret, path, url)
 
       if bundle.is_valid?
         response = bundle.sync('/platform/app')
-        begin 
-          ap JSON.parse(response)
-        rescue
+        begin
+          ap JSON.parse(response.body)
+        rescue Exception => e
           ap "There was a problem uploading your element to #{url}/platform/app"
+          ap e
           bundle.cleanup
         end
       else
@@ -29,15 +31,15 @@ module Weeblybundler
     desc "theme PATH", "Bundles and uploads your weebly platform theme."
     option :publish, :type => :boolean
     def theme( path )
-      token = ENV['WEEBLY_TOKEN']
-      site_id = ENV['WEEBLY_SITE_ID']
-      url = ENV['WEEBLY_DOMAIN'] || 'http://marketplace.beta.weebly.com'
+      client_id = ENV['WEEBLY_CLIENT_ID']
+      secret = ENV['WEEBLY_CLIENT_SECRET']
+      url = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
 
-      bundle = Bundle.new(token, site_id, path, url)
+      bundle = Bundle.new(client_id, secret, path, url)
 
       if bundle.is_valid?
         response = bundle.sync('/platform/theme', options[:publish])
-        begin 
+        begin
           ap JSON.parse(response)
         rescue
           ap "There was a problem uploading your element to #{url}/platform/theme"

@@ -1,6 +1,6 @@
-# Weeblybundler
+# WeeblyBundler v0.1.0
 
-TODO: Write a gem description
+WeeblyBundler is a CLI tool created to enable Weebly Platform Developers to rapidly deploy their apps.
 
 ## Installation
 
@@ -14,27 +14,31 @@ Change to source directory and install dependencies (including bundler)
 
 `cd weeblybundler`
 
-`sudo gem install bundler`
+`gem install bundler`
 
 `bundle install`
 
-Install the gem in your current gemset by running gem install with a path to the pkg/weeblybundler-0.0.1.gem in the gem's source directory.
+Install the gem in your current gemset by running gem install with a path to the pkg/weeblybundler-0.1.0.gem in the gem's source directory.
 
-`sudo gem install pkg/weeblybundler-0.0.1.gem`
+`gem build pkg/weeblybundler.gemspec`
+
+`gem install pkg/weeblybundler-0.1.0.gem`
 
 Good to go!
 
-
 ## Usage
 
-To use weeblybundler, first you must set your environment variables (api token and site_id). These can be found within the weebly editor under general settings.
+Before using weeblybundler, you must first set your client id and client secret as environment variables. You can find these values on your app's page in the developer-admin.
 
-`export WEEBLY_TOKEN=token && export WEEBLY_SITE_ID=site_id`
+`export WEEBLY_CLIENT_ID=client_id && export WEEBLY_CLIENT_SECRET=secret`
 
-Now you can use the sync command
+Now you can use the app command to sync your local changes to your app.
 
-`weeblybundle sync /Path/To/Element/Directory`
+`weeblybundle app /Path/To/Element/Directory`
 
+Once you have installed your app to a site from the developer-admin, you can sync your app using weeblybundle and view your changes in the editor by refreshing the page.
+
+Happy Bundling!
 
 ## Contributing
 
