@@ -11,10 +11,12 @@ module Weeblybundler
       client_id = ENV['WEEBLY_CLIENT_ID']
       secret = ENV['WEEBLY_CLIENT_SECRET']
       url = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
+      site_id = ENV['WEEBLY_SITE_ID']
+      token = ENV['WEEBLY_TOKEN']
 
-      bundle = Bundle.new(client_id, secret, path, url)
+      bundle = Bundle.new(client_id, secret, path, url, site_id, token)
 
-      if bundle.is_valid?
+      if bundle.is_valid('app')?
         response = bundle.sync('/platform/app')
         begin
           ap JSON.parse(response.body)
@@ -35,9 +37,9 @@ module Weeblybundler
       secret = ENV['WEEBLY_CLIENT_SECRET']
       url = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
 
-      bundle = Bundle.new(client_id, secret, path, url)
+      bundle = Bundle.new(client_id, secret, path, url,site_id, token)
 
-      if bundle.is_valid?
+      if bundle.is_valid('theme')?
         response = bundle.sync('/platform/theme', options[:publish])
         begin
           ap JSON.parse(response)
