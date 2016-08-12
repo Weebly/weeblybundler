@@ -6,28 +6,40 @@ module Weeblybundler
 
   class Bundle
 
-    def initialize(client_id, secret, path, url, site_id, token)
-      @client_id = client_id
-      @secret = secret
+    # type = ['app', 'theme']
+    # path - path to the zip file.
+    # domain - host to upload to.
+    # params - Parameters Bundle object should be initialized with. Require parameters specified in the validateApp/validateTheme methods.
+
+    def initialize(type, path, domain, params)
+      @params = params
       @path = path
+      @domain = domain
       @zip_location = "#{path}/#{path.split('/').last}.zip"
-      @url = url
-      @site_id = site_id
-      @token = token
+      @type = type
       @errors = {}
     end
 
-    def is_valid?(type)
+    def is_valid?()
       unless File.directory?(@path)
         @errors['filepath'] = "#{@path} is not a valid directory."
       end
-      if (type === 'app')
-        validateApp
+
+      if (@type === 'app')
+        validateFields(['client_id', 'secret'])
       end
-      if (type === 'theme')
-        validateTheme
+      if (@type === 'theme')
+        validateFields(['site_id', 'token', 'email'])
       end
       return @errors.empty?
+    end
+
+    def validateFields(required)
+      for field in required
+        if @params[field].nil? || @params[field].strip.empty?
+          @errors[field] = "You must set WEEBLY_" + field.upcase + " in your environment variables to upload " + @type +" '. See the ReadMe for more information."
+        end
+      end
     end
 
     def errors
@@ -36,30 +48,15 @@ module Weeblybundler
 
     def sync(path, publish=false)
       zip_bundle
-      response = upload(path, publish)
+      if @type === 'app'
+        response = uploadApp(path, publish)
+      end
+      if @type === 'theme'
+        response = uploadTheme(path, publish)
+      end
       cleanup
       return response
-    end
-
-    def validateApp
-      if @client_id.nil? || @client_id.strip.empty?
-        @errors['client_id'] = "You must set your client_id in your environment variables in order to upload apps. 'export WEEBLY_CLIENT_ID=123'"
-      end
-
-      if @secret.nil? || @secret.strip.empty?
-        @errors['secret'] = "You must set your secret in your environment variables in order to upload apps. 'export WEEBLY_CLIENT_SECRET=123'"
-      end
-    end
-
-    def validateTheme
-      if @site_id.nil? || @site_id.strip.empty?
-        @errors['site_id'] = "You must set your site_id in your environment variables in order to upload themes. 'export WEEBLY_SITE_ID=123'"
-      end
-
-      if @token.nil? || @token.strip.empty?
-        @errors['token'] = "You must set your site token in your environment variables in order to upload themes. 'export WEEBLY_TOKEN=123'"
-      end
-    end
+    end      
 
     def cleanup
       File.delete(@zip_location) if File.exist?(@zip_location)
@@ -75,14 +72,19 @@ module Weeblybundler
       zfg.write()
     end
 
-    def upload(path, publish=false)
-      token = JWT.encode({:client_id => @client_id}, @secret, 'HS256')
-      RestClient.post("#{@url}#{path}",
-    	 { :client_id => @client_id, :Filedata => File.new(@zip_location), :publish => publish }, 
+    def uploadApp(path, publish=false)
+      token = JWT.encode({:client_id => @params['client_id']}, @params['secret'], 'HS256')
+      RestClient.post("#{@domain}#{path}",
+    	 { :client_id => @params['client_id'], :Filedata => File.new(@zip_location), :publish => publish }, 
     	 { :Authorization => token}
       )
     end
 
+    def uploadTheme(path, publish=false)
+      RestClient.post("#{@domain}#{path}",
+       { :site_id => @params['site_id'], :email => ['email'], :Filedata => File.new(@zip_location), :publish => publish }, 
+       { :Authorization => @params['token']}
+      )
+    end
   end
-
 end

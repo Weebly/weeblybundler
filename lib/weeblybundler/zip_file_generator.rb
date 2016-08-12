@@ -24,7 +24,7 @@ module Weeblybundler
       io = Zip::File.open(@outputFile, Zip::File::CREATE);
 
       writeEntries(entries, "", io)
-      io.close();
+      io.close()
     end
 
     # A helper method to make the recursion work.
