@@ -46,6 +46,10 @@ Before uploading themes, you must first set your email, site_id, and site_token.
 
 `export WEEBLY_EMAIL=weebly@woobly.com && export WEEBLY_SITE_ID=site_id && export WEEBLY_TOKEN=token`
 
+Then upload the theme by using:
+
+`weeblybundle theme /Path/To/Theme`
+
 You can then see your uploaded theme under Themes->Custom.
 
 Happy Bundling!
