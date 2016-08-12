@@ -82,7 +82,7 @@ module Weeblybundler
 
     def uploadTheme(path, publish=false)
       RestClient.post("#{@domain}#{path}",
-       { :site_id => @params['site_id'], :email => ['email'], :Filedata => File.new(@zip_location), :publish => publish }, 
+       { :site_id => @params['site_id'], :email => @params['email'], :Filedata => File.new(@zip_location), :publish => publish }, 
        { :Authorization => @params['token']}
       )
     end
