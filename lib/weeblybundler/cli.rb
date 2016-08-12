@@ -18,9 +18,9 @@ module Weeblybundler
         response = bundle.sync('/platform/app')
         begin
           ap JSON.parse(response.body)
-        rescue Exception => e
-          ap "There was a problem uploading your element to #{url}/platform/app"
-          ap e
+        rescue
+          ap "There was a problem uploading your element to #{domain}/platform/app"
+          ap response.body
           bundle.cleanup
         end
       else
@@ -43,7 +43,8 @@ module Weeblybundler
         begin
           ap JSON.parse(response)
         rescue
-          ap "There was a problem uploading your element to #{url}/platform/theme"
+          ap "There was a problem uploading your element to #{domain}/platform/theme"
+          ap response.body
           bundle.cleanup
         end
       else
