@@ -1,6 +1,6 @@
 # WeeblyBundler v0.1.0
 
-WeeblyBundler is a CLI tool created to enable Weebly Platform Developers to rapidly deploy their apps.
+WeeblyBundler is a CLI tool created to enable Weebly Platform Developers to rapidly deploy their apps and upload their themes.
 
 ## Installation
 
@@ -8,7 +8,7 @@ Please note, this process will be significantly easier once the gem is released 
 
 Download the source code
 
-`git clone git@github.intern.weebly.net:bryan/weeblybundler.git`
+`git clone git@github.intern.weebly.net:weebly/weeblybundler.git`
 
 Change to source directory and install dependencies (including bundler)
 
@@ -28,9 +28,11 @@ Good to go!
 
 ## Usage
 
-Before using weeblybundler, you must first set your client id and client secret as environment variables. You can find these values on your app's page in the developer-admin.
+### Uploading Apps
 
-`export WEEBLY_CLIENT_ID=client_id && export WEEBLY_CLIENT_SECRET=secret`
+Before uploading apps, you must first set your client id and client secret as environment variables. You can find these values on your app's page in the developer-admin.
+
+`export WEEBLY_CLIENT_ID=client_id && export WEEBLY_SECRET=secret`
 
 Now you can use the app command to sync your local changes to your app.
 
@@ -38,12 +40,14 @@ Now you can use the app command to sync your local changes to your app.
 
 Once you have installed your app to a site from the developer-admin, you can sync your app using weeblybundle and view your changes in the editor by refreshing the page.
 
+### Uploading Themes
+
+Before uploading themes, you must first set your email, site_id, and site_token. You can retrieve the site_id and site_token from your editor under Settings->General->Platform API Token.
+
+`export WEEBLY_EMAIL=weebly@woobly.com && export WEEBLY_SITE_ID=site_id && export WEEBLY_TOKEN=token`
+
+You can then see your uploaded theme under Themes->Custom.
+
 Happy Bundling!
 
-## Contributing
-
-1. Fork it ( http://github.com/<my-github-username>/weeblybundler/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+For developer support and questions, contact us at developer@weebly.com.
