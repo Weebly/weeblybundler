@@ -19,11 +19,12 @@ module Weeblybundler
 
     # Zip the input directory.
     def write()
-      entries = Dir.entries(@inputDir); entries.delete("."); entries.delete("..")
+      entries = Dir.entries(@inputDir)
+      entries.delete_if { |entry| entry.start_with? '.' }
       io = Zip::File.open(@outputFile, Zip::File::CREATE);
 
       writeEntries(entries, "", io)
-      io.close();
+      io.close()
     end
 
     # A helper method to make the recursion work.
@@ -35,7 +36,8 @@ module Weeblybundler
         diskFilePath = File.join(@inputDir, zipFilePath)
         if  File.directory?(diskFilePath)
           io.mkdir(zipFilePath)
-          subdir =Dir.entries(diskFilePath); subdir.delete("."); subdir.delete("..")
+          subdir =Dir.entries(diskFilePath)
+          subdir.delete_if { |entry| entry.start_with? '.' }
           writeEntries(subdir, zipFilePath, io)
         else
           io.get_output_stream(zipFilePath) { |f| f.puts(File.open(diskFilePath, "rb").read())}
