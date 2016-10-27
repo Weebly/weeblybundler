@@ -2,9 +2,11 @@
 
 WeeblyBundler is a CLI tool created to enable Weebly Platform Developers to rapidly deploy their apps and upload their themes.
 
-## Installation
+## Installing via rubygems (Recommended)
 
-Please note, this process will be significantly easier once the gem is released on rubygems.
+`gem install weeblybundler`
+
+## Installing via Source
 
 Download the source code
 
