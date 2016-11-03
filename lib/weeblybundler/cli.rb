@@ -4,14 +4,18 @@ require "awesome_print"
 require "json"
 require "filewatcher"
 
-def watch( path )
-  puts 'Watching for changes...'
+def watch( type, path, publish = false )
+  puts 'Watching for ' + type + ' changes...'
   FileWatcher.new(path, interval: 0.1).watch() do |filename|
-    handleApp(path)
+    if type === "app"
+      handleApp(path)
+    elsif type === 'theme'
+      handleTheme(path, publish)
+    end
   end
 end
 
-def handleApp( path)
+def handleApp( path )
   client_id = ENV['WEEBLY_CLIENT_ID']
   secret = ENV['WEEBLY_SECRET']
   domain = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
@@ -32,6 +36,28 @@ def handleApp( path)
   end
 end
 
+def handleTheme( path, publish = false )
+  domain = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
+  site_id = ENV['WEEBLY_SITE_ID']
+  token = ENV['WEEBLY_TOKEN']
+  email = ENV['WEEBLY_EMAIL']
+
+  bundle = Weeblybundler::Bundle.new('theme', path, domain, {'domain' => domain, 'site_id' => site_id, 'token' => token, 'email' => email})
+
+  if bundle.is_valid?
+    response = bundle.sync('/platform/theme', publish)
+    begin
+      ap JSON.parse(response)
+    rescue
+      ap "There was a problem uploading your element to #{domain}/platform/theme"
+      ap response.body
+      bundle.cleanup
+    end
+  else
+    ap bundle.errors
+  end
+end
+
 module Weeblybundler
   class CLI < Thor
 
@@ -39,7 +65,7 @@ module Weeblybundler
     option :watch, :type => :boolean
     def app( path )
       if options[:watch]
-        return watch(path)
+        return watch("app", path, false)
       end
 
       handleApp(path)
@@ -47,26 +73,13 @@ module Weeblybundler
 
     desc "theme PATH", "Bundles and uploads your weebly platform theme."
     option :publish, :type => :boolean
+    option :watch, :type => :boolean
     def theme( path )
-      domain = ENV['WEEBLY_DOMAIN'] || 'https://www.weebly.com'
-      site_id = ENV['WEEBLY_SITE_ID']
-      token = ENV['WEEBLY_TOKEN']
-      email = ENV['WEEBLY_EMAIL']
-
-      bundle = Bundle.new('theme', path, domain, {'domain' => domain, 'site_id' => site_id, 'token' => token, 'email' => email})
-
-      if bundle.is_valid?
-        response = bundle.sync('/platform/theme', options[:publish])
-        begin
-          ap JSON.parse(response)
-        rescue
-          ap "There was a problem uploading your element to #{domain}/platform/theme"
-          ap response.body
-          bundle.cleanup
-        end
-      else
-        ap bundle.errors
+      if options[:watch]
+        return watch("theme", path, options[:publish])
       end
+
+      handleTheme(path, options[:publish])
     end
   end
 end
