@@ -1,4 +1,4 @@
-# WeeblyBundler v0.1.0
+# WeeblyBundler v0.1.1
 
 WeeblyBundler is a CLI tool created to enable Weebly Platform Developers to rapidly deploy their apps and upload their themes.
 
@@ -20,11 +20,11 @@ Change to source directory and install dependencies (including bundler)
 
 `bundle install`
 
-Install the gem in your current gemset by running gem install with a path to the pkg/weeblybundler-0.1.0.gem in the gem's source directory.
+Install the gem in your current gemset by running gem install with a path to the pkg/weeblybundler-0.1.1.gem in the gem's source directory.
 
 `gem build pkg/weeblybundler.gemspec`
 
-`gem install pkg/weeblybundler-0.1.0.gem`
+`gem install pkg/weeblybundler-0.1.1.gem`
 
 Good to go!
 
