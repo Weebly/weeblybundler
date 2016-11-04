@@ -32,13 +32,19 @@ Good to go!
 
 ### Uploading Apps
 
-Before uploading apps, you must first set your client id and client secret as environment variables. You can find these values on your app's page in the developer-admin.
+Before uploading apps, you must first set your client id and client secret as environment variables. You can find these values on your app's page in the developer-admin. 
 
 `export WEEBLY_CLIENT_ID=client_id && export WEEBLY_SECRET=secret`
 
 Now you can use the app command to sync your local changes to your app.
 
 `weeblybundle app /Path/To/Element/Directory`
+
+To make things even easier, you can use the `--watch` flag to watch your app directory for changes. Whenever a file is added, updated, or deleted from your app directory, the changes will be automatically synced.
+
+`weeblybundle app /Path/To/Element/Directory --watch`
+
+Every time you sync your changes, the current version of your app will be updated. If you decide to change the app's version before syncing your changes, a new app version will appear in developer-admin, in addition to your old app version.
 
 Once you have installed your app to a site from the developer-admin, you can sync your app using weeblybundle and view your changes in the editor by refreshing the page.
 
@@ -51,6 +57,10 @@ Before uploading themes, you must first set your email, site_id, and site_token.
 Then upload the theme by using:
 
 `weeblybundle theme /Path/To/Theme`
+
+Similar to apps, you can use the `--watch` flag to watch your theme directory for changes. Whenever a file is added, updated, or deleted from your theme directory, the changes will be automatically synced.
+
+`weeblybundle theme /Path/To/Theme --watch`
 
 You can then see your uploaded theme under Themes->Custom.
 
