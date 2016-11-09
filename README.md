@@ -30,39 +30,20 @@ Good to go!
 
 ## Usage
 
-### Uploading Apps
+You use the WeeblyBundler to upload your apps or themes to Weebly, where you can test them out. The bundler uses your developer account client ID and client secret for your account to know where to upload the app to, and your email, site ID, and platform token to upload themes. These need to be set as environment variables before using the bundler. More info can be found in our developer docs, <a href="https://dev.weebly.com/githubide-development-integration.html">here</a>.
 
-Before uploading apps, you must first set your client id and client secret as environment variables. You can find these values on your app's page in the developer-admin. 
+Once those are set, you run the bundler from a command line:
 
-`export WEEBLY_CLIENT_ID=client_id && export WEEBLY_SECRET=secret`
-
-Now you can use the app command to sync your local changes to your app.
-
+For apps:
 `weeblybundle app /Path/To/Element/Directory`
 
-To make things even easier, you can use the `--watch` flag to watch your app directory for changes. Whenever a file is added, updated, or deleted from your app directory, the changes will be automatically synced.
-
-`weeblybundle app /Path/To/Element/Directory --watch`
-
-Every time you sync your changes, the current version of your app will be updated. If you decide to change the app's version before syncing your changes, a new app version will appear in developer-admin, in addition to your old app version.
-
-Once you have installed your app to a site from the developer-admin, you can sync your app using weeblybundle and view your changes in the editor by refreshing the page.
-
-### Uploading Themes
-
-Before uploading themes, you must first set your email, site_id, and site_token. You can retrieve the site_id and site_token from your editor under Settings->General->Platform API Token.
-
-`export WEEBLY_EMAIL=weebly@woobly.com && export WEEBLY_SITE_ID=site_id && export WEEBLY_TOKEN=token`
-
-Then upload the theme by using:
-
+For themes:
 `weeblybundle theme /Path/To/Theme`
 
-Similar to apps, you can use the `--watch` flag to watch your theme directory for changes. Whenever a file is added, updated, or deleted from your theme directory, the changes will be automatically synced.
+When run, your updated zip file is uploaded to Weebly where you can test your app or theme out. You can also use the `--watch` flag to have the bundler run whenever you update the zip file.
 
-`weeblybundle theme /Path/To/Theme --watch`
 
-You can then see your uploaded theme under Themes->Custom.
+More info and instructions for using the bundler can be found <a href="https://dev.weebly.com/githubide-development-integration.html">here</a>.
 
 Happy Bundling!
 
